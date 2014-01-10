@@ -125,7 +125,7 @@ def process_emits(name,scanner)
   lines = scanner.string.split("\n")
   ret = []
   lines.each {|i| 
-    if /^emits\s+([a-z\-]+)/ =~ i
+    if /^emits\s+([a-zA-Z0-9\-_]+)/ =~ i
       emit = Regexp.last_match[1]
       ret << USEmit.new(name,emit)
     end
@@ -174,7 +174,7 @@ end
 
 def node_depend(name, scanner, tree)
   log "?DEPEND"
-  return nil unless scanner.scan(/(starting|started|stopping|stopped)\s+([a-z\-]+)/)
+  return nil unless scanner.scan(/(starting|started|stopping|stopped)\s+([a-zA-Z0-9\-_]+)/)
   event = scanner[1]
   from = scanner[2]
   log "#DEPEND #{event} #{from}"
@@ -186,7 +186,7 @@ end
 
 def node_event(name, scanner, tree)
   log "?EVENT"
-  return nil unless scanner.scan(/([a-z\-]+)/)
+  return nil unless scanner.scan(/([a-zA-Z0-9\-_]+)/)
   from = scanner[1]
   log "#EVENT #{from}"
   ev = USEvent.new(from,name)
